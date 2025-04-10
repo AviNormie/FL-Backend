@@ -53,7 +53,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(event, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    console.log(error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -95,7 +96,8 @@ export async function PUT(req: Request) {
     }
 
     return NextResponse.json(event);
-  } catch (error: any) {
+  } catch (error: unknown) {
+    console.log(error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -112,7 +114,7 @@ export async function GET(req: Request) {
 
     await connectDB();
 
-    const query: any = {};
+    const query: Partial<Record<string, string | boolean>> = {};
     if (organization) query.organization = organization;
     if (event_type) query.event_type = event_type;
     if (is_online !== null) query.is_online = is_online === 'true';
@@ -123,7 +125,8 @@ export async function GET(req: Request) {
       .sort({ start_time: 1 });
 
     return NextResponse.json(events);
-  } catch (error: any) {
+  } catch (error: unknown) {
+    console.log(error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

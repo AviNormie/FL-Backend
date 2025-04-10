@@ -23,8 +23,9 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(organization, { status: 201 });
-  } catch (error: any) {
-    if (error.code === 11000) {
+  } catch (error: unknown) {
+    console.log(error);
+    if (error instanceof Error && 'code' in error && error.code === 11000) {
       return NextResponse.json(
         { error: 'Organization already exists' },
         { status: 409 }

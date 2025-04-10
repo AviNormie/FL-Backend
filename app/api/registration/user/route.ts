@@ -34,11 +34,17 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(user, { status: 201 });
-  } catch (error: any) {
-    if (error.code === 11000) {
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error) {
+        return NextResponse.json(
+          { error: 'User already exists' },
+          { status: 409 }
+        );
+      }
       return NextResponse.json(
-        { error: 'User already exists' },
-        { status: 409 }
+        { error: error },
+        { status: 500 }
       );
     }
     return NextResponse.json(
@@ -69,7 +75,7 @@ export async function PUT(req: Request) {
 
     await connectDB();
 
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
     if (email) updateData.email = email;
     if (fullName) updateData.fullName = fullName;
     if (avatar_url) updateData.avatar_url = avatar_url;
@@ -92,7 +98,8 @@ export async function PUT(req: Request) {
     }
 
     return NextResponse.json(user);
-  } catch (error: any) {
+  } catch (error: unknown) {
+    console.log(error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
