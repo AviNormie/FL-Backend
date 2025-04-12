@@ -15,7 +15,7 @@ const OrganizationSchema = new mongoose.Schema({
   contact_email: { type: String },
   contact_phone: { type: String },
   website: { type: String },
-  ownerId: {
+  ownerSupabaseId: {
     type: String,
     required: true,
     ref: 'User',
