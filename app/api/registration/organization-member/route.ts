@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(updatedOrganization, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(error);
     return NextResponse.json(
       { error: 'Internal server error' },

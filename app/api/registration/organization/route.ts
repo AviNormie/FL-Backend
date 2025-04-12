@@ -24,21 +24,14 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(organization, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(error);
-    if (error.code === 11000) {
-      return NextResponse.json(
-        { error: 'Organization already exists' },
-        { status: 409 }
-      );
-    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     );
   }
 }
-
 
 export async function PUT(req: Request) {
   try {
@@ -82,8 +75,7 @@ export async function PUT(req: Request) {
     }
 
     // Step 4: Prepare update data
-    const updateData: any = {};
-
+    const updateData: Record<string, unknown> = {}; // Replace `any` with `unknown`
     if (updates) {
       Object.assign(updateData, updates);
     }
@@ -101,7 +93,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updatedOrg, { status: 200 });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(error);
     return NextResponse.json(
       { error: 'Internal server error' },
